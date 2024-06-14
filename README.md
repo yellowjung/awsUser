@@ -28,3 +28,13 @@ mvn clean package
 ```bash
 java -jar target/.jar
 ```
+
+## 사용 예제
+
+### IAM 사용자의 오래된 액세스 키 조회
+
+Access Key Pair 를 생성한지 N시간을 초과하는 IAM
+User의 User ID와 Access Key ID를 조회하는 예제입니다.
+
+```bash
+GET /old-access-keys?hours=24
