@@ -1,5 +1,6 @@
 package com.example.awsuser.controller;
 
+import com.example.awsuser.domain.UserAccessKeyInfo;
 import com.example.awsuser.service.AwsIamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ public class AwsIamController {
     private final AwsIamService awsIamService;
 
     @GetMapping("/old-create-keys")
-    public List<AccessKeyMetadata> getOldCreateKeys(@RequestParam int hours) {
+    public List<UserAccessKeyInfo> getOldCreateKeys(@RequestParam int hours) {
         return awsIamService.getOldCreateKeys(hours);
     }
 }
