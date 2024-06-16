@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aws-credentials
+type: Opaque
+data:
+  AWS_ACCESS_KEY_ID: <base64_encoded_access_key_id> #base 64 기반으로 encoding된 access key id
+  AWS_SECRET_ACCESS_KEY: <base64_encoded_secret_access_key> #base 64 기반으로 encoding된 secret access key
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aws-user-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aws-user-app
+  template:
+    metadata:
+      labels:
+        app: aws-user-app
+    spec:
+      containers:
+        - name: aws-user-app
+          image: aws-user-app:latest  # aws application 이미지 이름 사용하려는 이미지의 이름으로 변경 필수
+          imagePullPolicy: Never #Local Repository에 있는 이미지를 사용하기 위해 Never 옵션 사용
+          ports:
+            - containerPort: 8080  # 컨테이너가 노출할 포트
+          env:
+            - name: AWS_ACCESS_KEY_ID  # 환경 변수 설정
+              valueFrom:
+                secretKeyRef:
+                  name: aws-credentials
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-credentials
+                  key: AWS_SECRET_ACCESS_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aws-user-app
+spec:
+  selector:
+    app: aws-user-app
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 31001
+  type: NodePort  # 서비스 NodePort
