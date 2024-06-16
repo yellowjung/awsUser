@@ -1,6 +1,6 @@
 # AWS User Get Project
 
-이 프로젝트는 AWS IAM 액세스 키 관리를 자동화하는 Spring Boot 애플리케이션입니다.
+이 프로젝트는 AWS IAM 액세스 키를 가져오는 Spring Boot 애플리케이션입니다.
 
 ### 사용 목적
 > Access Key Pair를 생성한지 N시간을 초과하는 IAM User의
