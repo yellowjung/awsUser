@@ -38,3 +38,28 @@ User의 User ID와 Access Key ID를 조회하는 예제입니다.
 
 ```bash
 GET /old-access-keys?hours=24
+```
+
+## DockerFile 사용 방법
+
+### Docker build
+docker 혹은 podman이 설치되어있는 환경에서 아래의 명령을 실행합니다.
+명령어 실행 위치는 root dir입니다.
+```bash
+docker
+docker build -t {image_name}:{tag} .
+
+podman
+podman build -t {image_name}:{tag} .
+```
+
+### Docker run
+생성한 이미지를 수행시킵니다.
+이 때 미리 발급 받은 AWS_ACCESS_KEY_ID, 및 AWS_SECRET_ACCESS_KEY를 
+환경변수로 입력합니다.
+```bash
+docker run -e AWS_ACCESS_KEY_ID={AWS_ACCESS_KEY_ID} \
+           -e AWS_SECRET_ACCESS_KEY={AWS_SECRET_ACCESS_KEY} \
+           -p 8080:8080 {image_name}:{tag}
+```
+
